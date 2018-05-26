@@ -189,14 +189,14 @@ class App extends Component {
     if (!zillowResponse['response']) {
       this.setState({
         formErrors: {
-          address: "A zestimate was not retrieved for the provided address. Try changing your address to something that is postal-approved."
+          address: "The zestimate for this address is not available. Try changing your address to something that is postal-approved."
         }
       });
     }
 
     if (!zillowResponse['response'][0]['results'][0]['result'][0]['rentzestimate']) {
       zillowResponse['response'][0]['results'][0]['result'][0]['zestimate']
-        ? console.log(zillowResponse['response'][0]['results'][0]['result'][0]['zestimate'][0]['amount'][0]['_'])
+        ? this.approxRentalZestimate(zillowResponse['response'][0]['results'][0]['result'][0]['zestimate'][0]['amount'][0]['_'])
         : this.setState({
           formErrors: {
             address: "A zestimate was not retrieved for the provided address. Try changing your address to something that is postal-approved."
@@ -213,6 +213,10 @@ class App extends Component {
         rentZestimateLow: rentZestimateLow
       });
     }
+  }
+
+  approxRentalZestimate(zestimate) {
+    console.log(zestimate);
   }
 
   setProgressBar(e) {
