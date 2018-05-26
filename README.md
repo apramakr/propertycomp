@@ -1,4 +1,4 @@
-# Propertyco Lead Generation Form
+# PropertyCo Lead Generation Form
 
  A web form utilizing [React](http://facebook.github.io/react/).
 
