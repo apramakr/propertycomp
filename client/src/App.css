@@ -1,0 +1,127 @@
+html {
+  background: #FFF;
+}
+body {
+  background: #f9f9f9;
+  color: #62706c;
+  font-size: 100%;
+  /*line-height: 1.25;*/
+  padding: 25px;
+  margin: 25px 0 ;
+  border-right: 25px solid #fff;
+  border-left: 25px solid #fff;
+  font-family: Arial, sans-serif;
+}
+
+/*label {
+  display: block;
+  font-size: 1.1em;
+}*/
+
+/*.form {
+  margin: 60px auto 30px;
+  max-width: 400px;
+  text-align: center;
+}*/
+
+.App {
+  /*background-color:#fff;*/
+  box-sizing:border-box;
+}
+
+div.instructions, div.data, div.history, div.progressBar {
+  width: 49%;
+  margin: 60px auto 30px;
+  text-align: center;
+  height: 350px;
+  /*background-color:#333;
+  color:white;*/
+  align-items:center;
+  justify-content:center;
+  float: left;
+}
+
+.autocomplete {
+  background-color:#fff;
+  width: 90%;
+  align-items:center;
+  justify-content:center;
+}
+
+.App .clear {
+  clear: both;
+}
+
+.formErrors {
+  /*display: none;*/
+  color: #FB797E;
+  font-size: 1em;
+  padding: 4px;
+  border-radius: 20px;
+}
+
+@media screen and (max-width: 720px) {
+  .App {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .instructions,
+  .history,
+  .data,
+  .progressBar {
+    height: auto;
+  }
+}
+
+
+/*
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+html{
+  background-color:#eee;
+}
+.App{
+  margin: 20px auto;
+  width:400px;
+  height:400px;
+  background-color:#fff;
+  display:grid;
+  grid-template-columns: 500px 500px;
+  grid-row: auto auto;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+}
+.App.div{
+  width: 48%;
+  height: 350px;
+  background-color:#333;
+  padding:20px;
+  border-radius:10px;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  font-family:sans-serif;
+}
+.App .clear {
+  clear: both;
+}
+
+@media screen and (max-width: 499px) {
+  .App {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .instructions,
+  .history,
+  .data,
+  .progressBar {
+    height: auto;
+  }
+}
+
+*/
