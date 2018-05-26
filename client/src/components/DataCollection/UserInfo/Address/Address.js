@@ -10,6 +10,7 @@ const address = (props) => {
                 <Autocomplete className="autocomplete form-control input-sm"
                     placeholder="Enter your address"
                     onPlaceSelected={(place) => props.onchange(place)}
+                    onBlur={(event) => props.onblur(event)}
                     types={['geocode']}
                     componentRestrictions={{ country: "us" }}
                 />

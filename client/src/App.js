@@ -46,26 +46,9 @@ class App extends Component {
     formSent: false
   };
 
-  /*componentDidMount() {
-    this.handleSubmit()
-      .then(res => this.setState({ response: res.express }))
-      .catch(err => console.log(err));
-  }*/
-  /*
-    callApi = async () => {
-      const response = await fetch('/api/first');
-      const body = await response.json();
-  
-      if (response.status !== 200) throw Error(body.message);
-  
-      return body;
-    };
-  */
-
- onChangeHandler(event) {
-  this.handleUserInput(event);
-  this.setProgressBar();
- }
+  onChangeHandler(event) {
+    this.handleUserInput(event);
+  }
 
   handleUserInput(event) {
     let firstname = this.state.firstname;
@@ -129,7 +112,7 @@ class App extends Component {
         break;
       default:
         fieldValidationErrors.address = '';
-        
+
         break;
     }
 
@@ -144,6 +127,17 @@ class App extends Component {
   validateForm() {
     this.setState({
       formValid: this.state.emailValid && this.state.phoneValid && this.state.addressValid
+    });
+    let formError = [];
+    formError['fname'] = this.state.firstname ? true : false;
+    formError['lname'] = this.state.lastname ? true : false;
+    formError['email'] = this.state.emailValid ? true : false;
+    formError['phone'] = this.state.phoneValid ? true : false;
+    formError['address'] = this.state.addressValid ? true : false;
+    formError['expectedRent'] = this.state.expectedRent ? true : false;
+
+    this.setState({
+      formError: formError
     });
   }
 
@@ -187,20 +181,10 @@ class App extends Component {
           });
       }
     });
-
-    /*.then(function(response) {
-      return response.json();
-    }).then(function(data) {
-      console.log(data);
-    }).catch(function(e){
-      console.log(e);
-    });*/
   }
 
   zillowResponseHandler(result) {
     const zillowResponse = result['SearchResults:searchresults'];
-    //const rentZestimateResponse = "['response'][0]['results'][0]['result'][0]['rentzestimate']";
-    //const zestimate = "['response'][0]['results'][0]['result'][0]['zestimate']";
 
     if (!zillowResponse['response']) {
       this.setState({
@@ -231,26 +215,14 @@ class App extends Component {
     }
   }
 
-  setProgressBar() {
+  setProgressBar(e) {
     this.setProgressLabel();
 
     let completed = this.state.completed;
-    let fname = this.state.firstname;
-    let lname = this.state.lastname;
+    const formError = this.state.formError;
+    console.log(completed);
+    completed = formError[e.target.name] ? completed + 16.67 : completed - 16.67;
 
-    //fname ? completed = completed + 16.67 : completed = completed - 16.67;
-    //this.state.lastname.length > 0 ? completed = this.state.completed + 16.67 : completed = this.state.completed - 16.67;
-    completed = (this.state.firstname.length > 0) ? this.state.completed + 16.67 : this.state.completed;
-    (this.state.lastname.length > 0) ? console.log(this.state.completed + 16.67) : console.log(this.state.completed);
-    //(this.state.emailValid) ? console.log(this.state.completed+16.67) : console.log(this.state.completed);
-    //(this.state.phoneValid) ? console.log(this.state.completed+16.67) : console.log(this.state.completed);
-
-    //completed = this.state.emailValid ? completed + 16.67 : this.state.completed - 16.67;
-    //completed = this.state.phoneValid ? completed + 16.67 : this.state.completed - 16.67;
-    //this.state.addressValid ? completed = completed + 16.67 : this.state.completed;
-    //this.state.rentZestimate.length > 0 ? completed = completed + 16.67 : this.state.completed;
-
-    //console.log(completed);
     if (completed < 0) completed = 0;
     if (completed > 100) completed = 100;
 
@@ -309,7 +281,7 @@ class App extends Component {
     localStorage.setItem('rentZestimateHigh', highRange);
     localStorage.setItem('rentZestimateLow', lowRange);
     localStorage.setItem('expectedRent', expectedRent);
-    
+
     let message = `Thank you for signing up! You provided us the following\n`;
     message = `${message} First Name: ${fname}\n`;
     message = `${message} Last Name: ${lname}\n`;
@@ -326,36 +298,6 @@ class App extends Component {
     const data = localStorage.getItem('fname');
     return data;
   }
-
-  /*handleSubmit = async () => {
-    //e.preventDefault();
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const message = document.getElementById('message').value;
-
-    console.log(message);
-    //const url = 'http://localhost:5000/sendEmail';
-
-    //const response = await fetch('/sendEmail');
-    return await fetch('/sendEmail', {
-      method: "POST",
-      body: {
-        name: name,
-        email: email,
-        message: message
-      },
-    },
-    ).then((response) => {
-      if (response.data.msg === 'success') {
-        alert("An email has been sent to the address provided.");
-        //this.resetForm()
-      } else if (response.data.msg === 'fail') {
-        alert("Message failed to send.")
-      }
-      alert("OK");
-    })
-  }*/
-
 
   handleSubmit(e) {
     e.preventDefault()
@@ -391,9 +333,9 @@ class App extends Component {
   }
 
   render() {
+
     return (
-      <div className="App">
-        <span>{this.state.response}</span>
+      <div className="App">        
         <Script
           url={MAPS_URL}
           onError={() => this.handleScriptError()}
@@ -414,6 +356,7 @@ class App extends Component {
           <UserInfo
             className="userInfo"
             onchange={(event) => this.onChangeHandler(event)}
+            onblur={(event) => this.setProgressBar(event)}
             fname={this.state.firstname}
             lname={this.state.lastname}
             email={this.state.email}
@@ -422,12 +365,14 @@ class App extends Component {
 
           <Address
             mapsAPILoaded={this.state.mapsScriptLoaded}
+            onblur={(event) => this.setProgressBar(event)}
             onchange={(place) => this.handleUserInput(place)}
             addressStyle={classes.App}
           />
 
           <RentZestimate
             onchange={(event) => this.handleUserInput(event)}
+            onblur={(event) => this.setProgressBar(event)}
             rentZestimate={this.state.rentZestimate}
             rentZestimateHigh={this.state.rentZestimateHigh}
             rentZestimateLow={this.state.rentZestimateLow}

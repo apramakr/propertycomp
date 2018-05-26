@@ -9,7 +9,7 @@ const progress = (props) => {
     return (
         <ProgressBar
             completed={props.completed}
-            color="blue"
+            color="green"
             style={progressBarStyle} />
     )
 }

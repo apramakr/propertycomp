@@ -18,7 +18,8 @@ const rentZestimate = (props) => {
                     type="text"
                     name="expectedRent"
                     onChange={(event) => props.onchange(event)}
-                    value={props.expectedRent} />
+                    onBlur={(event) => props.onblur(event)}
+                />
             </p>
         </Aux>
     );
