@@ -36,6 +36,6 @@ Access it at http://localhost:3000
 # TO-DO
 
  A separate email service has been built using Node.js that is included along with the files.
- Currently its just been set up such that the data collected is displayed back in a pop-up message back to the user. I would need to debug further on the email being triggered.
+ Currently its just been set up such that the data collected is displayed back in a pop-up message back to the user. More debugging is required to pass the email values to the node service.
 
- All use cases for rental zestimates ( ex: where the valuation range is missing ) have not been covered yet.
+The progress bar has been implemented, but a few cases where the progress bar retraces steps back haven't been covered yet.

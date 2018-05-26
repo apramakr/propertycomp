@@ -185,6 +185,7 @@ class App extends Component {
 
   zillowResponseHandler(result) {
     const zillowResponse = result['SearchResults:searchresults'];
+    console.log(zillowResponse);
 
     if (!zillowResponse['response']) {
       this.setState({
@@ -192,6 +193,7 @@ class App extends Component {
           address: "The zestimate for this address is not available. Try changing your address to something that is postal-approved."
         }
       });
+      return;
     }
 
     if (!zillowResponse['response'][0]['results'][0]['result'][0]['rentzestimate']) {
@@ -216,7 +218,16 @@ class App extends Component {
   }
 
   approxRentalZestimate(zestimate) {
-    console.log(zestimate);
+    const annualRentZestimate = 5 / 100 * zestimate;
+    const monthlyRentZestimate = Math.floor(annualRentZestimate / 12);
+    const rentLowZestimateRange = Math.floor(monthlyRentZestimate * .90);
+    const rentHighZestimateRange = Math.floor(monthlyRentZestimate * 1.10);
+
+    this.setState({
+      rentZestimate: monthlyRentZestimate,
+      rentZestimateLow: rentLowZestimateRange,
+      rentZestimateHigh: rentHighZestimateRange
+    });
   }
 
   setProgressBar(e) {
@@ -224,7 +235,6 @@ class App extends Component {
 
     let completed = this.state.completed;
     const formError = this.state.formError;
-    console.log(completed);
     completed = formError[e.target.name] ? completed + 16.67 : completed - 16.67;
 
     if (completed < 0) completed = 0;
@@ -339,7 +349,7 @@ class App extends Component {
   render() {
 
     return (
-      <div className="App">        
+      <div className="App">
         <Script
           url={MAPS_URL}
           onError={() => this.handleScriptError()}
