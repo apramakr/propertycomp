@@ -275,7 +275,7 @@ class App extends Component {
     })
   }
 
-  signUpButtonHandler() {
+  signUpButtonHandler(event) {
     const fname = this.state.firstname;
     const lname = this.state.lastname;
     const email = this.state.email;
@@ -296,15 +296,8 @@ class App extends Component {
     localStorage.setItem('rentZestimateLow', lowRange);
     localStorage.setItem('expectedRent', expectedRent);
 
-    let message = `Thank you for signing up! You provided us the following\n`;
-    message = `${message} First Name: ${fname}\n`;
-    message = `${message} Last Name: ${lname}\n`;
-    message = `${message} Email Address: ${email}\n`;
-    message = `${message} Phone: ${phone}\n`;
-    message = `${message} Address: ${address['formatted_address']}\n`;
-    message = `${message} Expected Monthly Rent: ${expectedRent}\n\n`;
-    message = `${message} Please check your email confirming registration with us!`;
-    return alert(message);
+    this.handleEmailSubmit(event);
+    return alert("Please check your email to confirm registration with us!");
 
   }
 
@@ -313,12 +306,27 @@ class App extends Component {
     return data;
   }
 
-  handleSubmit(e) {
-    e.preventDefault()
+  handleEmailSubmit = (e) => {
+    e.preventDefault();
 
-    const name = document.getElementsByName('name').value;
-    const email = document.getElementsByName('email').value;
-    const message = document.getElementsByName('message').value;
+    const name = `${this.state.firstname} ${this.state.lastname}`;
+    const email = this.state.email;
+    const message =
+      `Hi ${name},
+       Thank you for signing up with PropertyCo!
+        This is the information you provided us:
+        Name: ${name}
+        Email: ${email}
+        Phone: ${this.state.phone}
+        Address: ${this.state.address['formatted_address']}
+        Expected Monthly Rent: ${this.state.expectedRent}
+        Please stay tuned for our beta trial!`;
+
+    const body = JSON.stringify({
+      name: name,
+      email: email,
+      message: message
+    });
 
     fetch('/sendEmail', {
       method: 'POST',
@@ -326,15 +334,11 @@ class App extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: ({
-        name: name,
-        email: email,
-        message: message
-      })
+      body: JSON.stringify({ name: `${name}`, email: `${email}`, message: `${message}` })
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        if (responseJson.success) {
+        if (responseJson.msg === 'success') {
           console.log('message sent');
         }
         else {
@@ -392,7 +396,9 @@ class App extends Component {
             rentZestimateLow={this.state.rentZestimateLow}
           />
 
-          <SubmitData setLocalStorage={() => this.signUpButtonHandler()} disabled={!this.state.formValid} />
+          <SubmitData
+            setLocalStorage={(e) => this.signUpButtonHandler(e)}
+            disabled={!this.state.formValid} />
 
           {
             (this.state.formErrors['email'] || this.state.formErrors['phone'] || this.state.formErrors['address']) ?

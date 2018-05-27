@@ -1,8 +1,14 @@
 const express = require('express');
-const router = express.Router();
 const nodemailer = require('nodemailer');
 const creds = require('../config');
+const bodyParser = require('body-parser');
 
+//const app = express();
+const router = express.Router();
+/*
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+*/
 const transport = {
   service: 'gmail',
   auth: {
@@ -21,12 +27,13 @@ transporter.verify((error, success) => {
   }
 });
 
-router.post('/sendEmail', (req, res, next) => {
-  console.log(req.body);
+router.post('/sendEmail', (req, res) => {
+  //console.log(req.ip);
+  //console.log(request.connection.remoteAddress);
   var name = req.body.name
   var email = req.body.email
   var message = req.body.message
-  var content = `name: ${name} \n email: ${email} \n message: ${message} `
+  var content = `message: ${message} \n IP Address: ${req.ip}`
   var mail = {
     from: name,
     to: email,
