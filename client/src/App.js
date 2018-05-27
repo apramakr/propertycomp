@@ -185,8 +185,7 @@ class App extends Component {
 
   zillowResponseHandler(result) {
     const zillowResponse = result['SearchResults:searchresults'];
-    console.log(zillowResponse);
-
+    
     if (!zillowResponse['response']) {
       this.setState({
         formErrors: {
