@@ -318,7 +318,7 @@ class App extends Component {
         Email: ${email}
         Phone: ${this.state.phone}
         Address: ${this.state.address['formatted_address']}
-        Expected Monthly Rent: ${this.state.expectedRent}
+        Expected Monthly Rent: $${this.state.expectedRent}
         Please stay tuned for our beta trial!`;
 
     const body = JSON.stringify({
