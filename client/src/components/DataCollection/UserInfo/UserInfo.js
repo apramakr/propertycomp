@@ -23,7 +23,7 @@ const userInfo = (props) => {
                 />
             </p>
             <p className="form-group input-group-sm">
-                <label htmlFor="email">Email address:</label>
+                <label htmlFor="email">Email:</label>
                 <input className="form-control input-sm"
                     type="email"
                     name="email"
@@ -32,7 +32,7 @@ const userInfo = (props) => {
                 />
             </p>
             <p className="form-group input-group-sm">
-                <label htmlFor="phone">Phone number:</label>
+                <label htmlFor="phone">Phone:</label>
                 <input className="form-control input-sm"
                     type="text"
                     name="phone"

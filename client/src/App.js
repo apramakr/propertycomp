@@ -10,7 +10,6 @@ import SubmitData from './components/DataCollection/SubmitData/SubmitData';
 import RentZestimate from './components/DataCollection/RentZestimate/RentZestimate';
 import Instructions from './components/Instructions/Instructions';
 import History from './components/History/History';
-import EmailTemplate from './components/EmailTemplate/EmailTemplate';
 
 const MAPS_API_KEY = 'AIzaSyBff2IKobIbwrFZuYwtcz1KoPgeo4yzcJo';
 const MAPS_URL = `https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`;
@@ -20,6 +19,14 @@ const ZILLOW_URL = `http://www.zillow.com/webservice/GetSearchResults.htm?zws-id
 
 class App extends Component {
   state = {
+    inputs: [
+      { name: 'fname' },
+      { name: 'lname' },
+      { name: 'email' },
+      { name: 'phone' },
+      { name: 'address' },
+      { name: 'expectedRent' }
+    ],
     response: '',
     firstname: '',
     lastname: '',
@@ -121,14 +128,15 @@ class App extends Component {
       emailValid: emailValid,
       phoneValid: phoneValid,
       addressValid: addressValid
-    }, this.validateForm);
+    }, this.validateForm
+    );
   }
 
   validateForm() {
     this.setState({
       formValid: this.state.emailValid && this.state.phoneValid && this.state.addressValid
     });
-    let formError = [];
+    const formError = [];
     formError['fname'] = this.state.firstname ? true : false;
     formError['lname'] = this.state.lastname ? true : false;
     formError['email'] = this.state.emailValid ? true : false;
@@ -234,25 +242,13 @@ class App extends Component {
 
     let done = 0;
     let progressPercent;
-    for (let i = 0; i <= 6; i++) {
-      if (
-        (this.state.firstname.length > 2)
-        || (this.state.lastname.length > 2)
-        || (this.state.emailValid)
-        || (this.state.phoneValid)
-        || (this.state.address['address_components'])
-      ) {
+
+    this.state.inputs.map(item => {
+      if (this.state.formError[item.name]) {
         done += 1;
-      };
-    }
-    progressPercent = done / 6 * 100;
-    console.log(progressPercent);
-    /* let completed = this.state.completed;
-    const formError = this.state.formError;
-    completed = formError[e.target.name] ? completed + 16.67 : completed - 16.67;
-*/
-    if (progressPercent < 0) progressPercent = 0;
-    if (progressPercent > 100) progressPercent = 100;
+      }
+    });
+    progressPercent = done / (this.state.inputs.length) * 100;
 
     this.setState({
       completed: progressPercent
