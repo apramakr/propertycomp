@@ -35,7 +35,3 @@ Access it at http://localhost:3000
 
 # TO-DO
 
---> A separate email service has been built using Node.js that is included along with the files.
-It's been set up such that on clicking the 'Sign me up!' button, a message is displayed to check the email to confirm registration. An email is sent to the email address mentioned in the form which contains all the data collected from the user.
-
---> The progress bar has been implemented, but a few cases where the progress bar retraces steps back haven't been covered yet.
