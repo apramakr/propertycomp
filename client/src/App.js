@@ -185,7 +185,7 @@ class App extends Component {
 
   zillowResponseHandler(result) {
     const zillowResponse = result['SearchResults:searchresults'];
-    
+
     if (!zillowResponse['response']) {
       this.setState({
         formErrors: {
@@ -232,15 +232,30 @@ class App extends Component {
   setProgressBar(e) {
     this.setProgressLabel();
 
-    let completed = this.state.completed;
+    let done = 0;
+    let progressPercent;
+    for (let i = 0; i <= 6; i++) {
+      if (
+        (this.state.firstname.length > 2)
+        || (this.state.lastname.length > 2)
+        || (this.state.emailValid)
+        || (this.state.phoneValid)
+        || (this.state.address['address_components'])
+      ) {
+        done += 1;
+      };
+    }
+    progressPercent = done / 6 * 100;
+    console.log(progressPercent);
+    /* let completed = this.state.completed;
     const formError = this.state.formError;
     completed = formError[e.target.name] ? completed + 16.67 : completed - 16.67;
-
-    if (completed < 0) completed = 0;
-    if (completed > 100) completed = 100;
+*/
+    if (progressPercent < 0) progressPercent = 0;
+    if (progressPercent > 100) progressPercent = 100;
 
     this.setState({
-      completed: completed
+      completed: progressPercent
     });
   }
 
@@ -400,11 +415,15 @@ class App extends Component {
             disabled={!this.state.formValid} />
 
           {
-            (this.state.formErrors['email'] || this.state.formErrors['phone'] || this.state.formErrors['address']) ?
+            (this.state.formErrors['email']
+              || this.state.formErrors['phone']
+              || this.state.formErrors['address'])
+              ?
               <FormErrors
                 className="formErrors"
                 formErrors={this.state.formErrors}
-              /> : ''
+              />
+              : ''
           }
         </div>
 
