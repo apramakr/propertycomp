@@ -12,11 +12,17 @@ This will install all dependencies.
 
 To build the project run this command:
 
-``npm run build``
+Server:
 
-This will create a ``dist`` directory.
+``npm run start``
 
-Access it at http://localhost:3000
+Client: 
+
+Open another terminal and run the following to build the client
+
+``npm run client``
+
+Open browser and point it to http://localhost:3000
 
 ### Intro
  A basic overview of why we are collecting data from the user
